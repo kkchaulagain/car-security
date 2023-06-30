@@ -1,0 +1,7 @@
+version: "3"
+services:
+  camera-streaming:
+    image: kkchaulagain/car:local
+    privileged: true
+    network_mode: host
+    restart: unless-stopped
