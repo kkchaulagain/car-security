@@ -11,4 +11,3 @@ while True:
 
 camera.release()  # Release the camera
 cv2.destroyAllWindows()  # Close the window
-docker run --privileged -it --rm --net=host --name camera-streaming-container kkchaulagain/car   
