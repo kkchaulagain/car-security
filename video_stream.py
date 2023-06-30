@@ -19,11 +19,8 @@ def generate_frames():
         if not success:
             break
 
-        # Apply distortion correction for fisheye lens
-        corrected_frame = cv2.fisheye.undistortImage(frame, distortion_coeffs)
-
         # Resize the frame to fit the display
-        frame = cv2.resize(corrected_frame, (0, 0), fx=0.5, fy=0.5)
+        frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
 
         # Convert the frame to JPEG format
         ret, buffer = cv2.imencode('.jpg', frame)
