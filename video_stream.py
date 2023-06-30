@@ -7,8 +7,8 @@ def generate_frames():
     camera = cv2.VideoCapture(0)  # Open the camera
 
     # Set camera resolution to ultra wide
-    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 2560)
+    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 
     # Set camera frame rate to 24 fps
     camera.set(cv2.CAP_PROP_FPS, 24)
