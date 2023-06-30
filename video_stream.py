@@ -6,12 +6,12 @@ app = Flask(__name__)
 def generate_frames():
     camera = cv2.VideoCapture(0)  # Open the camera
 
-    # Set camera resolution to ultra wide
-    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 2560)
-    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-
-    # Set camera frame rate to 24 fps
-    camera.set(cv2.CAP_PROP_FPS, 24)
+    # Print camera properties
+    print("Camera Properties:")
+    print("Resolution:", camera.get(cv2.CAP_PROP_FRAME_WIDTH), "x", camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    print("FOV (degrees):", camera.get(cv2.CAP_PROP_FOVRANGE))
+    print("Focal Length (mm):", camera.get(cv2.CAP_PROP_FOCAL_LENGTH))
+    print("Framerate (fps):", camera.get(cv2.CAP_PROP_FPS))
 
     while True:
         success, frame = camera.read()  # Read a frame from the camera
