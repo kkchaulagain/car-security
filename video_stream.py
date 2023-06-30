@@ -1,18 +1,10 @@
 import cv2
-import math
 from flask import Flask, Response
 
 app = Flask(__name__)
 
-def calculate_fov(focal_length, resolution):
-    """
-    Calculate the field of view (FOV) in degrees.
-    """
-    width, height = resolution
-    sensor_width = 2 * math.tan(math.radians(0.5 * width / focal_length))
-    sensor_height = 2 * math.tan(math.radians(0.5 * height / focal_length))
-    fov_deg = (math.degrees(sensor_width), math.degrees(sensor_height))
-    return fov_deg
+# Placeholder value for FOV (replace with the actual FOV of your camera module)
+FOV_DEGREES = 120.0
 
 def generate_frames():
     camera = cv2.VideoCapture(0)  # Open the camera
@@ -20,12 +12,7 @@ def generate_frames():
     # Print camera properties
     print("Camera Properties:")
     print("Resolution:", camera.get(cv2.CAP_PROP_FRAME_WIDTH), "x", camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    focal_length = camera.get(cv2.CAP_PROP_FOCAL_LENGTH)
-    print("Focal Length (mm):", focal_length)
-    resolution = (camera.get(cv2.CAP_PROP_FRAME_WIDTH), camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    print("Resolution:", resolution)
-    fov = calculate_fov(focal_length, resolution)
-    print("FOV (degrees):", fov)
+    print("FOV (degrees):", FOV_DEGREES)
     print("Framerate (fps):", camera.get(cv2.CAP_PROP_FPS))
 
     while True:
