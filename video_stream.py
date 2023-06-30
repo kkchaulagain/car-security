@@ -3,12 +3,15 @@ from flask import Flask, Response
 
 app = Flask(__name__)
 
-def calculate_fov(sensor_width, focal_length):
+def calculate_fov(resolution, sensor_size):
     """
     Calculate the field of view (FOV) in degrees.
     """
-    fov = 2 * math.atan(sensor_width / (2 * focal_length))
-    fov_deg = math.degrees(fov)
+    width, height = resolution
+    sensor_width, sensor_height = sensor_size
+    horizontal_fov = 2 * math.atan(sensor_width / (2 * focal_length))
+    vertical_fov = 2 * math.atan(sensor_height / (2 * focal_length))
+    fov_deg = (math.degrees(horizontal_fov), math.degrees(vertical_fov))
     return fov_deg
 
 def generate_frames():
@@ -17,10 +20,13 @@ def generate_frames():
     # Print camera properties
     print("Camera Properties:")
     print("Resolution:", camera.get(cv2.CAP_PROP_FRAME_WIDTH), "x", camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    print("Focal Length (mm):", camera.get(cv2.CAP_PROP_FOCAL_LENGTH))
     sensor_width = camera.get(cv2.CAP_PROP_SENSOR_WIDTH)
-    print("Sensor Width (mm):", sensor_width)
-    fov = calculate_fov(sensor_width, camera.get(cv2.CAP_PROP_FOCAL_LENGTH))
+    sensor_height = camera.get(cv2.CAP_PROP_SENSOR_HEIGHT)
+    sensor_size = (sensor_width, sensor_height)
+    print("Sensor Size (mm):", sensor_size)
+    resolution = (camera.get(cv2.CAP_PROP_FRAME_WIDTH), camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    print("Resolution:", resolution)
+    fov = calculate_fov(resolution, sensor_size)
     print("FOV (degrees):", fov)
     print("Framerate (fps):", camera.get(cv2.CAP_PROP_FPS))
 
