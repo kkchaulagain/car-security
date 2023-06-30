@@ -7,9 +7,11 @@ def generate_frames():
     camera = cv2.VideoCapture(0)  # Open the camera
 
     # Set camera resolution to ultra wide
-    # 2560×1080
-    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 2560)
-    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+
+    # Set camera frame rate to 24 fps
+    camera.set(cv2.CAP_PROP_FPS, 24)
 
     while True:
         success, frame = camera.read()  # Read a frame from the camera
@@ -17,8 +19,8 @@ def generate_frames():
         if not success:
             break
 
-        # Apply color correction (reduce bluish tint)
-        corrected_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        # Apply distortion correction for fisheye lens
+        corrected_frame = cv2.fisheye.undistortImage(frame, distortion_coeffs)
 
         # Resize the frame to fit the display
         frame = cv2.resize(corrected_frame, (0, 0), fx=0.5, fy=0.5)
