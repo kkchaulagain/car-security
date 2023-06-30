@@ -7,8 +7,9 @@ def generate_frames():
     camera = cv2.VideoCapture(0)  # Open the camera
 
     # Set camera resolution to ultra wide
-    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+    # 2560×1080
+    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 2560)
+    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 
     while True:
         success, frame = camera.read()  # Read a frame from the camera
