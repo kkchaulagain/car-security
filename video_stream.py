@@ -1,27 +1,14 @@
 import cv2
-from flask import Flask, Response
 
+camera = cv2.VideoCapture(0)  # Open the camera
 
-app = Flask(__name__)
+while True:
+    ret, frame = camera.read()  # Read a frame from the camera
+    cv2.imshow('Camera Stream', frame)  # Display the frame
 
+    if cv2.waitKey(1) & 0xFF == ord('q'):  # Exit when 'q' is pressed
+        break
 
-def generate_frames():
-    capture = cv2.VideoCapture(0)  # Adjust the camera index as per your setup
-    while True:
-        ret, frame = capture.read()
-        if not ret:
-            break
-        else:
-            ret, buffer = cv2.imencode('.jpg', frame)
-            frame = buffer.tobytes()
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-@app.route('/video_feed')
-def video_feed():
-    return Response(generate_frames(),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
+camera.release()  # Release the camera
+cv2.destroyAllWindows()  # Close the window
+docker run --privileged -it --rm --net=host --name camera-streaming-container kkchaulagain/car   

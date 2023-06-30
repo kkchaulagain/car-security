@@ -1,14 +1,17 @@
-FROM balenalib/raspberry-pi-python:latest
-RUN pip install --upgrade pip
+FROM balenalib/raspberrypi3-python:latest
 
+# Install required packages
 RUN apt-get update && apt-get install -y \
-    python3-dev \
-    build-essential \
-    cmake
-RUN pip install --no-cache-dir numpy
+    libatlas-base-dev \
+    libjasper-dev \
+    python3-opencv
 
+# Set working directory
+WORKDIR /app
 
-# Install OpenCV
-RUN pip install opencv-python-headless
+# Copy the camera streaming script
+COPY video_stream.py camera_stream.py 
 
-CMD ["bash"]
+# Run the camera streaming script
+CMD ["python3", "camera_stream.py"]
+
