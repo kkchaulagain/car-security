@@ -4,7 +4,6 @@ FROM balenalib/raspberrypi3-python:latest
 RUN apt-get update && apt-get install -y \
     libatlas-base-dev \
     libjasper-dev \
-    libqtgui4 \
     python3-opencv \
     libopencv-dev
 
