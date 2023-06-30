@@ -12,6 +12,9 @@ def generate_frames():
         if not success:
             break
 
+        # Resize the frame to fit the display
+        frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
+
         # Convert the frame to JPEG format
         ret, buffer = cv2.imencode('.jpg', frame)
 
