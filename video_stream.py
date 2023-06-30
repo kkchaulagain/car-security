@@ -1,7 +1,27 @@
 import cv2
+import numpy as np
 from flask import Flask, Response
 
 app = Flask(__name__)
+
+def adjust_colors(frame):
+    # Convert the frame to the HSV color space
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+    # Adjust the color values in the HSV image
+    # Modify the values based on your specific color correction requirements
+    hue_shift = 0  # Adjust the hue shift
+    saturation_scale = 1.2  # Adjust the saturation scale
+    value_scale = 1.0  # Adjust the value scale
+
+    hsv[..., 0] += hue_shift
+    hsv[..., 1] *= saturation_scale
+    hsv[..., 2] *= value_scale
+
+    # Convert the HSV image back to BGR color space
+    adjusted_frame = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
+
+    return adjusted_frame
 
 def generate_frames():
     camera = cv2.VideoCapture(0)  # Open the camera
@@ -17,8 +37,11 @@ def generate_frames():
         if not success:
             break
 
-        # Convert the frame to JPEG format
-        ret, buffer = cv2.imencode('.jpg', frame)
+        # Adjust colors in the frame
+        adjusted_frame = adjust_colors(frame)
+
+        # Convert the adjusted frame to JPEG format
+        ret, buffer = cv2.imencode('.jpg', adjusted_frame)
 
         if not ret:
             break
