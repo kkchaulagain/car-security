@@ -6,14 +6,21 @@ app = Flask(__name__)
 def generate_frames():
     camera = cv2.VideoCapture(0)  # Open the camera
 
+    # Set camera resolution to ultra wide
+    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+
     while True:
         success, frame = camera.read()  # Read a frame from the camera
 
         if not success:
             break
 
+        # Apply color correction (reduce bluish tint)
+        corrected_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
         # Resize the frame to fit the display
-        frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
+        frame = cv2.resize(corrected_frame, (0, 0), fx=0.5, fy=0.5)
 
         # Convert the frame to JPEG format
         ret, buffer = cv2.imencode('.jpg', frame)
